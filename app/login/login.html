@@ -1,0 +1,8 @@
+<form ng-controller="loginController">
+    <label for="userNameId">用户名</label>
+    <input type="text" id="userNameId" ng-model="user.name"/>
+    <label for="userPasswordId">密码</label>
+    <input type="password" id="userPasswordId" ng-model="user.password"/>
+    <button id="submit" ng-click="submit()">提交</button>
+    <button id="reset" ng-click="reset()">重置</button>
+</form>

@@ -1,0 +1,30 @@
+<div id="sidebar" ng-controller="sidebarCtrl">
+    <div id="pointDiv">
+        <label for="pointSelect">当前报到点：</label>
+        <select name="point" id="pointSelect"></select>
+    </div>
+
+    <div id="queryDiv">
+        <form>
+            <label for="khInput">学生考号：</label>
+            <input type="text" id="khInput" ng-model="stuQuery.kh"/>
+            <label for="tzshInput">通知书号：</label>
+            <input type="text" id="tzshInput" ng-model="stuQuery.tzsh"/>
+            <label for="sfzhInput">身份证号：</label>
+            <input type="text" id="sfzhInput" ng-model="stuQuery.sfzh"/>
+            <label for="xhInput">学生学号：</label>
+            <input type="text" id="xhInput" ng-model="stuQuery.xh"/>
+            <label for="xmInput">学生姓名：</label>
+            <input type="text" id="xmInput" ng-model="stuQuery.xm"/>
+
+            <button ng-click="queryStudent()">查询</button>
+            <button ng-click="reset()">重置</button>
+        </form>
+    </div>
+
+    <div id="analysisDiv">
+
+    </div>
+</div>
+
+<div ui-view></div>
