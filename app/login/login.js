@@ -6,7 +6,7 @@ angular.module('myApp.login', [])
     $scope.submit = function() {
       if (!$scope.user.userName || !$scope.user.userPassword) {
         $state.go('login', {
-          msg: 'ÓÃ»§ÃûÃÜÂëÎª¿Õ'
+          msg: 'ç”¨æˆ·åå¯†ç ä¸ºç©º'
         });
       }
 
@@ -14,7 +14,7 @@ angular.module('myApp.login', [])
         $state.go('main');
       } else {
         $state.go('login', {
-          msg: 'µÇÂ½Ê§°Ü'
+          msg: 'ç”¨æˆ·åå¯†ç é”™è¯¯'
         });
       }
     };

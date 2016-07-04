@@ -1,0 +1,9 @@
+#searchDiv input {
+    height: 25px;
+}
+#searchDiv .form-group {
+    margin-bottom: 10px;
+}
+#searchDiv {
+    margin-top: 20px;
+}

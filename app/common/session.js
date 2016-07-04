@@ -1,12 +1,12 @@
 /**
  * Created by ryancui on 2016/7/1.
  */
-angular.module('myApp.service', []).factory('sessionService', function($http, $cookies) {
+app.factory('sessionService', function($http, $cookies) {
   var sessionService = {};
 
   var session = null;
 
-  /** ÉèÖÃsession */
+  /** è®¾ç½®session */
   sessionService.setSession = function(data) {
     session = {
       userName: data.userName,
@@ -15,17 +15,23 @@ angular.module('myApp.service', []).factory('sessionService', function($http, $c
       token: data.token
     };
 
-    // ½«token·Åµ½cookiesÖĞ
     $cookies.put('TOKEN', data.token);
   };
 
-  /** ÊÇ·ñÒÑµÇÂ¼ */
+  /** æ¸…é™¤sessionä¿¡æ¯ */
+  sessionService.removeSession = function() {
+    session = null;
+
+    $cookies.put('TOKEN', '');
+  };
+
+  /** åˆ¤æ–­æ˜¯å¦å·²ç™»å½• */
   sessionService.isLogin = function() {
     var isLogin = true;
 
-    // Ê×ÏÈ¼ì²éÇ°¶ËsessionÊÇ·ñÎª¿Õ
+    // sessionä¸ºnullåˆ™
     if (session == null) {
-      // sessionÎª¿Õ£¬ÔòÓÃcookieÖĞµÄtokenÇëÇóºóÌ¨ÊÇ·ñÔÚºóÌ¨ÒÑµÇÂ¼
+      // sessionä¸ºç©ºï¼Œè‹¥æœ‰cookieåˆ™å‘åå°è¯·æ±‚ç›¸åº”çš„ç™»é™†ç”¨æˆ·ä¿¡æ¯
       var token = $cookies.get('TOKEN');
       if (!token) {
         isLogin = false;
@@ -45,7 +51,7 @@ angular.module('myApp.service', []).factory('sessionService', function($http, $c
     return isLogin;
   };
 
-  /** µÇÂ¼ */
+  /** ç™»å½• */
   sessionService.login = function(userName, userPassword) {
     var success = true;
 
@@ -61,6 +67,26 @@ angular.module('myApp.service', []).factory('sessionService', function($http, $c
     });
 
     return success;
+  };
+
+  /** ç™»å‡º */
+  sessionService.logout = function() {
+    var success = true;
+
+    $http.post('/api/logout', {
+      token: session.token
+    }).success(function(ret) {
+      if (ret.success) {
+        sessionService.removeSession();
+      } else {
+        success = false;
+      }
+    })
+  };
+
+  /** è·å– session ä¿¡æ¯ */
+  sessionService.getSession = function() {
+    return session;
   };
 
   return sessionService;
