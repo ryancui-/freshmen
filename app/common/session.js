@@ -1,10 +1,36 @@
 /**
  * Created by ryancui on 2016/7/1.
  */
-app.factory('sessionService', function($http, $cookies) {
+app.factory('sessionService', function($http, $cookies, $rootScope) {
   var sessionService = {};
 
   var session = null;
+
+  /** 登录 */
+  sessionService.login = function(userName, userPassword) {
+    return $http.post('/api/login', {
+      userName: userName,
+      userPassword: userPassword
+    });
+  };
+
+  /** 登出 */
+  sessionService.logout = function() {
+    return $http.post('/api/logout', {
+      token: session.token
+    });
+  };
+
+  /** 获取当前登录用户 */
+  sessionService.profile = function() {
+    var token = $cookies.get('TOKEN');
+    return $http.get('/api/profile?token=' + token);
+  };
+
+  /** 获取 session 信息 */
+  sessionService.getSession = function() {
+    return session;
+  };
 
   /** 设置session */
   sessionService.setSession = function(data) {
@@ -16,77 +42,16 @@ app.factory('sessionService', function($http, $cookies) {
     };
 
     $cookies.put('TOKEN', data.token);
+
+    $rootScope.$broadcast('LOGIN');
   };
 
   /** 清除session信息 */
   sessionService.removeSession = function() {
     session = null;
-
     $cookies.put('TOKEN', '');
-  };
 
-  /** 判断是否已登录 */
-  sessionService.isLogin = function() {
-    var isLogin = true;
-
-    // session为null则
-    if (session == null) {
-      // session为空，若有cookie则向后台请求相应的登陆用户信息
-      var token = $cookies.get('TOKEN');
-      if (!token) {
-        isLogin = false;
-      } else {
-        $http.get('/api/profile', {
-          token: token
-        }).success(function(ret) {
-          if (ret.success) {
-            sessionService.setSession(ret.data);
-          } else {
-            isLogin = false;
-          }
-        });
-      }
-    }
-
-    return isLogin;
-  };
-
-  /** 登录 */
-  sessionService.login = function(userName, userPassword) {
-    var success = true;
-
-    $http.post('/api/login', {
-      userName: userName,
-      userPassword: userPassword
-    }).success(function(ret) {
-      if (ret.success) {
-        sessionService.setSession(ret.data);
-      } else {
-        success = false;
-      }
-    });
-
-    return success;
-  };
-
-  /** 登出 */
-  sessionService.logout = function() {
-    var success = true;
-
-    $http.post('/api/logout', {
-      token: session.token
-    }).success(function(ret) {
-      if (ret.success) {
-        sessionService.removeSession();
-      } else {
-        success = false;
-      }
-    })
-  };
-
-  /** 获取 session 信息 */
-  sessionService.getSession = function() {
-    return session;
+    $rootScope.$broadcast('LOGOUT');
   };
 
   return sessionService;
