@@ -1,0 +1,82 @@
+<div id="sideBar" class="container" style="width: 350px;float: left" ng-controller="sideBarCtrl">
+  <div class="panel panel-default">
+    <div class="panel-heading">当前报到点</div>
+    <div class="panel-body">
+      <form name="pointForm">
+        <div class="form-group">
+          <select class="form-control"></select>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">查询新生信息</div>
+    <div class="panel-body">
+      <form name="searchStuForm" class="form-horizontal" ng-submit="queryStudent(searchStuForm.$valid)" novalidate>
+        <div class="form-group">
+          <label class="col-sm-4" for="khInput">学生考号：</label>
+          <div class="col-sm-8">
+            <input class="form-control" type="text" id="khInput" ng-model="stuQuery.kh"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-4" for="tzshInput">通知书号：</label>
+          <div class="col-sm-8">
+            <input class="form-control" type="text" id="tzshInput" ng-model="stuQuery.tzsh"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-4" for="sfzhInput">身份证号：</label>
+          <div class="col-sm-8">
+            <input class="form-control" type="text" id="sfzhInput" ng-model="stuQuery.sfzh"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-4" for="xhInput">学生学号：</label>
+          <div class="col-sm-8">
+            <input class="form-control" type="text" id="xhInput" ng-model="stuQuery.xh"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-4" for="xmInput">学生姓名：</label>
+          <div class="col-sm-8">
+            <input class="form-control" type="text" id="xmInput" ng-model="stuQuery.xm"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-4 col-sm-8">
+            <button type="submit" class="btn btn-success btn-sm">查询</button>
+            <button class="btn btn-default btn-sm" ng-click="reset()">重置</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">统计</div>
+    <div class="panel-body">
+      <div class="list-group">
+        <a ui-sref="analysis" class="list-group-item">
+          未到<span class="badge">14</span>
+        </a>
+        <a ui-sref="analysis" class="list-group-item">
+          已到未完成<span class="badge">14</span>
+        </a>
+        <a ui-sref="analysis" class="list-group-item">
+          已到已完成<span class="badge">14</span>
+        </a>
+        <a ui-sref="analysis" class="list-group-item">
+          绿色通道<span class="badge">14</span>
+        </a>
+        <a ui-sref="analysis" class="list-group-item">
+          缓交<span class="badge">14</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div ui-view style="float: left;margin-left: 10px;"></div>
+

@@ -1,14 +1,11 @@
-#searchDiv input {
-    height: 25px;
+#sideBar form input, #sideBar form select {
+    height: 28px;
 }
-#searchDiv .form-group {
-    margin-bottom: 10px;
-}
-#searchDiv {
-    margin-top: 20px;
+#sideBar form .form-group {
+    margin-bottom: 7px;
 }
 
-/*****/
+/** footer CSS */
 .copyright {
     padding:10px;
     margin:0px;

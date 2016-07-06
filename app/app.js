@@ -4,45 +4,10 @@
 var app = angular.module('app', [
   'ui.router',
   'ui.bootstrap',
+  'smart-table',
   'ngCookies',
   'service'
 ]);
-
-var serviceModule = angular.module('service', []);
-
-app.controller('appCtrl', function($scope, $rootScope, $state, $stateParams, $location, sessionService) {
-  console.log('>>全局控制器');
-
-  $scope.loginUser = null;
-
-  $scope.$on('LOGIN', function() {
-    $scope.loginUser = sessionService.getSession();
-  });
-
-  $scope.$on('LOGOUT', function() {
-    $scope.loginUser = null;
-  });
-
-});
-
-/** 导航条控制器 */
-app.controller('navBarCtrl', function($scope, $rootScope, $state, $stateParams, $location, sessionService) {
-  console.log('>>导航条控制器');
-
-  $scope.$on('routeChange', function(e, name) {
-    // 更新tab的活动状态
-    $scope.state = name.indexOf('.') == -1 ? name : name.substring(0, name.indexOf('.'));
-  });
-
-  /** 登出 */
-  $scope.logout = function() {
-    sessionService.logout().success(function(ret) {
-      sessionService.removeSession();
-
-      $state.go('login');
-    });
-  }
-});
 
 /** 应用配置 */
 app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
@@ -52,19 +17,23 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
     $stateProvider
       .state('login', {
         url: "/login",
-        templateUrl: "login/login.html",
+        templateUrl: "views/login/login.html",
       })
       .state('main', {
         url: '/main',
-        templateUrl: 'main/main.html',
+        templateUrl: 'views/main/main.html',
       })
       .state('analysis', {
         url: '/analysis',
-        templateUrl: 'analysis/analysis.html',
+        templateUrl: 'views/analysis/analysis.html',
       })
       .state('main.stuList', {
-        url: '/stuList',
-        templateUrl: 'stuList/stuList.html'
+        url: '/stuList?kh&tzsh&sfzh&xh&xm',
+        templateUrl: 'views/stuList/stuList.html',
+      })
+      .state('manage', {
+        url: '/manage',
+        templateUrl: 'views/manage/manage.html'
       });
 
     $httpProvider.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -134,39 +103,10 @@ app.run(function($rootScope, $state, sessionService, $cookies) {
     console.log('路由改变');
 
     $rootScope.$broadcast('routeChange', next.name);
-    if (!sessionService.getSession() && next.url != '/login') {
-      event.preventDefault();
-      $state.go('login');
-    }
 
-    //var session = sessionService.getSession();
-    //if (!session) {
-    //  if (!$cookies.get('TOKEN')) {
-    //    if (next.url == '/login') {
-    //      $rootScope.$broadcast('routeChange', next.name);
-    //    } else {
-    //      event.preventDefault();
-    //      $state.go('login');
-    //    }
-    //  } else {
-    //    sessionService.profile().success(function(ret) {
-    //      if (ret.success) {
-    //        // 已登录
-    //        sessionService.setSession(ret.data);
-    //        $rootScope.$broadcast('routeChange', next.name);
-    //      } else {
-    //        // 未登录
-    //        if (next.url != '/login') {
-    //          event.preventDefault();
-    //          $state.go('login');
-    //        } else {
-    //          $rootScope.$broadcast('routeChange', next.name);
-    //        }
-    //      }
-    //    });
-    //  }
-    //} else {
-    //  $rootScope.$broadcast('routeChange', next.name);
+    //if (!sessionService.getSession() && next.url != '/login') {
+    //  event.preventDefault();
+    //  $state.go('login');
     //}
 
   });
