@@ -1,17 +1,14 @@
 /**
  * Created by ryancui on 2016/7/1.
  */
-app.factory('sessionService', function($http, $cookies, $rootScope) {
+serviceModule.factory('sessionService', function($http, $cookies, $rootScope) {
   var sessionService = {};
 
   var session = null;
 
   /** 登录 */
-  sessionService.login = function(userName, userPassword) {
-    return $http.post('/api/login', {
-      userName: userName,
-      userPassword: userPassword
-    });
+  sessionService.login = function(user) {
+    return $http.post('/api/login', user);
   };
 
   /** 登出 */

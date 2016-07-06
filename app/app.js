@@ -1,58 +1,66 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
-var app = angular.module('myApp', [
+var app = angular.module('app', [
   'ui.router',
-  'myApp.login',
-  'myApp.main',
-  'myApp.analysis',
-  'ngCookies'
+  'ui.bootstrap',
+  'ngCookies',
+  'service'
 ]);
 
-app
-  .controller('myAppCtrl', function($scope, $rootScope, $state, $stateParams, $location, sessionService) {
-    console.log('执行myAppCtrl');
+var serviceModule = angular.module('service', []);
 
-    $scope.$on('routeChange', function(e, name) {
-      // 更新tab的活动状态
-      $scope.state = name.indexOf('.') == -1 ? name : name.substring(0, name.indexOf('.'));
+app.controller('appCtrl', function($scope, $rootScope, $state, $stateParams, $location, sessionService) {
+  console.log('>>全局控制器');
+
+  $scope.loginUser = null;
+
+  $scope.$on('LOGIN', function() {
+    $scope.loginUser = sessionService.getSession();
+  });
+
+  $scope.$on('LOGOUT', function() {
+    $scope.loginUser = null;
+  });
+
+});
+
+/** 导航条控制器 */
+app.controller('navBarCtrl', function($scope, $rootScope, $state, $stateParams, $location, sessionService) {
+  console.log('>>导航条控制器');
+
+  $scope.$on('routeChange', function(e, name) {
+    // 更新tab的活动状态
+    $scope.state = name.indexOf('.') == -1 ? name : name.substring(0, name.indexOf('.'));
+  });
+
+  /** 登出 */
+  $scope.logout = function() {
+    sessionService.logout().success(function(ret) {
+      sessionService.removeSession();
+
+      $state.go('login');
     });
+  }
+});
 
-    $scope.$on('LOGIN', function(e) {
-      $scope.isLogin = true;
-      $scope.userName = sessionService.getSession().userName;
-    });
-
-    $scope.$on('LOGOUT', function(e) {
-      $scope.isLogin = false;
-    });
-
-    /** 登出 */
-    $scope.logout = function() {
-      sessionService.logout().success(function(ret) {
-        sessionService.removeSession();
-        $state.go('login');
-      });
-    }
-  })
-  .config(function($stateProvider, $urlRouterProvider, $httpProvider) {
+/** 应用配置 */
+app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
     $urlRouterProvider.otherwise("/login");
 
     // 路由状态
     $stateProvider
       .state('login', {
         url: "/login",
-        templateUrl: "login/login.html"
+        templateUrl: "login/login.html",
       })
       .state('main', {
         url: '/main',
         templateUrl: 'main/main.html',
-        controller: 'sidebarCtrl'
       })
       .state('analysis', {
         url: '/analysis',
         templateUrl: 'analysis/analysis.html',
-        controller: 'analysisCtrl'
       })
       .state('main.stuList', {
         url: '/stuList',
@@ -105,42 +113,62 @@ app
         ? param(data)
         : data;
     }];
-  })
-  .run(function($rootScope, $state, sessionService, $cookies) {
+  });
 
-    // 绑定路由改变事件
-    $rootScope.$on('$stateChangeStart', function(event, next) {
-      console.log('路由改变');
+/** Run 方法 */
+app.run(function($rootScope, $state, sessionService, $cookies) {
 
-      var session = sessionService.getSession();
-      if (!session) {
-        if (!$cookies.get('TOKEN')) {
-          if (next.url == '/login') {
-            $rootScope.$broadcast('routeChange', next.name);
-          } else {
-            event.preventDefault();
-            $state.go('login');
-          }
-        } else {
-          sessionService.profile().success(function(ret) {
-            if (ret.success) {
-              // 已登录
-              sessionService.setSession(ret.data);
-              $rootScope.$broadcast('routeChange', next.name);
-            } else {
-              // 未登录
-              if (next.url != '/login') {
-                event.preventDefault();
-                $state.go('login');
-              } else {
-                $rootScope.$broadcast('routeChange', next.name);
-              }
-            }
-          });
-        }
-      } else {
-        $rootScope.$broadcast('routeChange', next.name);
+  console.log('>> 执行Run方法');
+
+  // 刷新后需要从服务器从新获取登录信息
+  if (!sessionService.getSession() && $cookies.get('TOKEN')) {
+    sessionService.profile().success(function(ret) {
+      if (ret.success) {
+        sessionService.setSession(ret.data);
       }
     });
+  }
+
+  // 绑定路由改变事件
+  $rootScope.$on('$stateChangeStart', function(event, next) {
+    console.log('路由改变');
+
+    $rootScope.$broadcast('routeChange', next.name);
+    if (!sessionService.getSession() && next.url != '/login') {
+      event.preventDefault();
+      $state.go('login');
+    }
+
+    //var session = sessionService.getSession();
+    //if (!session) {
+    //  if (!$cookies.get('TOKEN')) {
+    //    if (next.url == '/login') {
+    //      $rootScope.$broadcast('routeChange', next.name);
+    //    } else {
+    //      event.preventDefault();
+    //      $state.go('login');
+    //    }
+    //  } else {
+    //    sessionService.profile().success(function(ret) {
+    //      if (ret.success) {
+    //        // 已登录
+    //        sessionService.setSession(ret.data);
+    //        $rootScope.$broadcast('routeChange', next.name);
+    //      } else {
+    //        // 未登录
+    //        if (next.url != '/login') {
+    //          event.preventDefault();
+    //          $state.go('login');
+    //        } else {
+    //          $rootScope.$broadcast('routeChange', next.name);
+    //        }
+    //      }
+    //    });
+    //  }
+    //} else {
+    //  $rootScope.$broadcast('routeChange', next.name);
+    //}
 
   });
+
+});

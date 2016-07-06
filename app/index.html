@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="myApp">
+<html ng-app="app">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,13 +9,13 @@
   <meta name="renderer" content="webkit">
 
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="bower_components/angular-bootstrap/ui-bootstrap-csp.css">
   <link rel="stylesheet" href="main/main.css">
 
 </head>
-<body>
-  <nav class="navbar navbar-default navbar-inverse" ng-controller="myAppCtrl">
+<body ng-controller="appCtrl">
+  <nav class="navbar navbar-default navbar-inverse" ng-controller="navBarCtrl">
     <div class="container" style="width: 700px">
-      <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
         <a class="navbar-brand" ui-sref="main">中山大学迎新系统</a>
       </div>
@@ -27,11 +27,14 @@
           <li ng-class="{'active': state=='analysis'}"><a ui-sref="analysis">统计</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li ng-hide="isLogin"><a ui-sref="login">登录</a></li>
-          <li ng-show="isLogin" class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown">用户：<span ng-bind="userName"></span></a>
-            <ul class="dropdown-menu">
-              <li><a href="javascript:void(0);" ng-click="logout()">退出</a></li>
+          <li ng-show="loginUser==null"><a ui-sref="login">登录</a></li>
+          <li ng-hide="loginUser==null" uib-dropdown>
+            <a role="button" class="dropdown-toggle" uib-dropdown-toggle>
+              用户：<span ng-bind="loginUser.userName"></span>
+              <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+              <li role="menuitem"><a href="javascript:void(0);" ng-click="logout()">退出</a></li>
             </ul>
           </li>
         </ul>
@@ -44,18 +47,18 @@
   <!-- In production use:
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
   -->
-  <script src="bower_components/jquery/dist/jquery.min.js"></script>
-
-  <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
   <script src="bower_components/angular-cookies/angular-cookies.min.js"></script>
+  <script src="bower_components/angular-animate/angular-animate.min.js"></script>
+  <script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+
 
   <script src="app.js"></script>
   <script src="login/login.js"></script>
   <script src="main/main.js"></script>
   <script src="analysis/analysis.js"></script>
   <script src="common/session.js"></script>
+
 </body>
 </html>
