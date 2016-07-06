@@ -1,3 +1,9 @@
+<div class="jumbotron subhead" id="overview">
+    <div class="container" align="left">
+        <img alt="中山大学现场迎新系统" src="resources/img/logo.png">
+        <p class="lead"><h3 style="color:#fff">中山大学现场迎新系统</h3>  </p>
+    </div>
+</div>
 <div ng-controller="loginCtrl">
     <div class="container" style="width: 700px;">
         <div ng-show="showAlert" ng-class="{'alert-warning': alertType=='warning', 'alert-danger': alertType=='danger'}" class="alert" role="alert" ng-bind="alertMsg"></div>
@@ -8,9 +14,9 @@
         </div>
         <form name="loginForm" class="form-horizontal" ng-show="loginUser==null" ng-submit="submit(loginForm.$valid)" novalidate>
             <div class="form-group">
-                <label class="col-sm-3" for="userNameId">用户名：</label>
+                <label class="col-sm-3" for="userNumberId">用户名：</label>
                 <div class="col-sm-9">
-                    <input class="form-control" type="text" id="userNameId" ng-model="user.userName" required/>
+                    <input class="form-control" type="text" id="userNumberId" ng-model="user.userNumber" required/>
                 </div>
             </div>
             <div class="form-group">
@@ -26,6 +32,18 @@
                 </div>
             </div>
         </form>
+    </div>
+</div>
+<div class="footer" id="footer">
+    <div class="container">
+        <div >
+            <div class="bottomlogo"><img src="http://www.sysu.edu.cn/2012/images/logo-bottom.jpg" /></div>
+            <div class="bottomcontact_cn">通讯地址:广州市新港西路135号     邮编:510275<br />电话: 020-84112828</div>
+            <div class="bottomcontact_en">Address: No. 135, Xingang Xi Road, Guangzhou, 510275, P. R. China<br />
+                TEL: +86-20-84112828</div>
+            <div class="clear"></div>
+            <div class="copyright" style="margin-top:30px;">中山大学版权所有 COPYRIGHT©1999-2016 , SUN YAT-SEN UNIVERSITY</div>
+        </div>
     </div>
 </div>
 

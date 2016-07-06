@@ -35,6 +35,7 @@ serviceModule.factory('sessionService', function($http, $cookies, $rootScope) {
       userName: data.userName,
       userId: data.userId,
       departmentName: data.departmentName,
+      userNumber: data.userNumber,
       token: data.token
     };
 
