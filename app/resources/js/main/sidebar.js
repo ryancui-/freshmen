@@ -1,7 +1,7 @@
 /**
  * Created by ryancui on 2016/7/6.
  */
-app.controller('sideBarCtrl', function($scope, $http, $state) {
+app.controller('sideBarCtrl', function($scope, $http, $state, promptService) {
   $scope.stuQuery = null;
 
   /** 查询新生信息 */

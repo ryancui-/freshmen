@@ -1,1 +1,51 @@
-<h1>这是管理页面</h1>
+<div class="panel panel-default" style="height: 400px;" ng-controller="managePointCtrl">
+  <div class="panel-heading">报到点列表</div>
+  <div class="panel-body">
+    <div class="btn-group" role="group">
+      <button type="button" class="btn btn-default">新增</button>
+      <button type="button" class="btn btn-default">修改</button>
+      <button type="button" class="btn btn-default">删除</button>
+      <button type="button" class="btn btn-default">编辑报到点人员</button>
+    </div>
+
+    <table class="table table-strips">
+      <thead>
+        <th>报到点名称</th>
+        <th>报到点权限SQL</th>
+        <th>报到点描述</th>
+      </thead>
+      <tbody>
+        <tr ng-repeat="row in rows">
+          <td>东校区报到点</td>
+          <td>pycc='本科'</td>
+          <td>东校区统一报到点</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="panel panel-default" style="height: 300px;" ng-controller="managePeopleCtrl">
+  <div class="panel-heading">报到点中的人员</div>
+  <div class="panel-body">
+    <div class="btn-group" role="group">
+      <button type="button" class="btn btn-default">新增</button>
+      <button type="button" class="btn btn-default">删除</button>
+    </div>
+
+    <table class="table table-strips">
+      <thead>
+      <th>Usernumber</th>
+      <th>姓名</th>
+      <th>单位</th>
+      </thead>
+      <tbody>
+      <tr>
+        <td>yx_35000</td>
+        <td>院系迎新员</td>
+        <td>管理学院</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
