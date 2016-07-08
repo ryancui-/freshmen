@@ -1,0 +1,10 @@
+<div>
+  <div class="form-inline">
+    <select style="vertical-align: middle" class="form-control" ng-model="$parent.tableState.pagination.number" ng-options="item as item for item in $parent.itemsOptions" ng-change="$parent.getData($parent.tableState.pagination.currentPage)">
+      <option value="">请选择</option>
+    </select>
+    <uib-pagination total-items="$parent.tableState.pagination.totalItemCount" items-per-page="$parent.tableState.pagination.number" ng-model="$parent.tableState.pagination.currentPage" ng-change="$parent.getData($parent.tableState.pagination.currentPage)" class="pagination-md" boundary-link-numbers="true" max-size="5" boundary-links="true" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+    <input class="form-control" type="text" ng-model="$parent.tableState.pagination.inputCurPage">
+    <button class="btn btn-sm btn-default" ng-click="$parent.getData($parent.tableState.pagination.inputCurPage)" ng-disabled="!$parent.tableState.pagination.inputCurPage||$parent.tableState.pagination.inputCurPage==''">转到</button>
+  </div>
+</div>

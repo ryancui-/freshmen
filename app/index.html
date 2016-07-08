@@ -21,7 +21,6 @@
       <div class="navbar-header">
         <a class="navbar-brand" ui-sref="main" style="font-family: 'SimHei'">中山大学迎新系统</a>
       </div>
-      <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
           <li ng-class="{'active': state=='main'}"><a ui-sref="main">首页</a></li>
@@ -44,11 +43,8 @@
     </div><!-- /.container-fluid -->
   </nav>
 
-  <div ui-view class="container-fluid"></div>
+  <div ui-view class="container" style="width: 1400px;"></div>
 
-  <!-- In production use:
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
-  -->
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
   <script src="bower_components/angular-smart-table/dist/smart-table.min.js"></script>
